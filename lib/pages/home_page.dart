@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:qrreaderapp/bloc/scans_bloc.dart';
 import 'package:qrreaderapp/models/scan_model.dart';
 import 'package:qrreaderapp/pages/direcciones.dart';
 import 'package:qrreaderapp/pages/mapas_page.dart';
 import 'package:qrcode_reader/qrcode_reader.dart';
+import 'package:qrreaderapp/utils/utils.dart' as utils;
 
 
 
@@ -34,13 +37,13 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.filter_center_focus),
-        onPressed: _scarQR,
+        onPressed: () => _scanQR(context),
         backgroundColor: Theme.of(context).primaryColor,
       ),
     );
   }
 
-  _scarQR() async {
+  _scanQR(BuildContext context) async {
     //https://www.infobae.com/
     //geo:-34.550219825632145,-58.490196189657502
     String futureString = 'https://www.infobae.com/';
@@ -57,7 +60,19 @@ class _HomePageState extends State<HomePage> {
       //nuevoScan.id = nuevoScan.hashCode;
       scansBloc.addScan(nuevoScan);
 
+      Platform.isIOS 
+        ? Future.delayed(Duration(milliseconds: 750), () => utils.launchURL(context, nuevoScan)) 
+        : utils.launchURL(context, nuevoScan);
+
+
+
     }
+    // if(futureString != null){
+    //   ScanResponse nuevoScan = ScanResponse( valor: 'geo:-34.550219825632145,-58.490196189657502' );
+    //   //nuevoScan.id = nuevoScan.hashCode;
+    //   scansBloc.addScan(nuevoScan);
+
+    // }
 
   }
 
