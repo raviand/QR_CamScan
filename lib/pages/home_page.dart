@@ -46,15 +46,15 @@ class _HomePageState extends State<HomePage> {
   _scanQR(BuildContext context) async {
     //https://www.infobae.com/
     //geo:-34.550219825632145,-58.490196189657502
-    String futureString = 'https://www.infobae.com/';
+    String futureString ;
     //String futureString = 'geo:-34.550219825632145,-58.490196189657502';
 
-  //   try{
-  //     futureString = await QRCodeReader().scan();
-  //   }catch(e){
-  //     futureString = e.toString();
-  //   }
-  //   print('FutureString: $futureString');
+    try{
+      futureString = await QRCodeReader().scan();
+    }catch(e){
+      futureString = e.toString();
+    }
+    print('FutureString: $futureString');
     if(futureString != null){
       ScanResponse nuevoScan = ScanResponse( valor: futureString );
       //nuevoScan.id = nuevoScan.hashCode;
