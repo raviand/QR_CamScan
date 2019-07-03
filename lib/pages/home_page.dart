@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:qrreaderapp/bloc/scans_bloc.dart';
+import 'package:qrreaderapp/models/scan_model.dart';
 import 'package:qrreaderapp/pages/direcciones.dart';
 import 'package:qrreaderapp/pages/mapas_page.dart';
 import 'package:qrcode_reader/qrcode_reader.dart';
@@ -14,7 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
-
+  final scansBloc = ScansBloc();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +25,7 @@ class _HomePageState extends State<HomePage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.delete_forever),
-            onPressed: (){},
+            onPressed: scansBloc.deleteAllScans,
           )
         ],
       ),
@@ -50,9 +52,12 @@ class _HomePageState extends State<HomePage> {
   //     futureString = e.toString();
   //   }
   //   print('FutureString: $futureString');
-  //   if(futureString == null){
-  //     print('future String Null');
-  //   }
+    if(futureString != null){
+      ScanResponse nuevoScan = ScanResponse( valor: futureString );
+      //nuevoScan.id = nuevoScan.hashCode;
+      scansBloc.addScan(nuevoScan);
+
+    }
 
   }
 
